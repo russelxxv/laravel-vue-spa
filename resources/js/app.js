@@ -9,8 +9,24 @@ require('./bootstrap');
 import router from "./routes";
 import VueRouter from "vue-router";
 import Index from "./Index";
+import moment from "moment";
+import Vuex from "vuex";
+import Vue from "vue";
+import StarRating from './shared/component/StarRating';
+import FatalError from './shared/component/FatalError';
+import ButtonLoading from './shared/component/ButtonLoading';
+import Success from './shared/component/Success';
+import ValidationError from './shared/component/ValidationError';
+import storeDefinition from './store';
 
 window.Vue = require('vue').default;
+Vue.filter("fromNow", value => moment(value).fromNow());
+
+Vue.component("star-rating", StarRating);
+Vue.component("fatal-error", FatalError);
+Vue.component("success", Success);
+Vue.component("v-errors", ValidationError);
+Vue.component("button-loading", ButtonLoading);
 
 
 /**
@@ -34,11 +50,19 @@ window.Vue = require('vue').default;
  */
 
 Vue.use(VueRouter);
+Vue.use(Vuex);
+
+const store = new Vuex.Store(storeDefinition);
 
 const app = new Vue({
     el: '#app',
     router,
+    store,
     components: {
         "index": Index
+    },
+
+    beforeCreate() {
+        this.$store.dispatch('loadStoredState');
     }
 });

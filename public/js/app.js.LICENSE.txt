@@ -35,6 +35,12 @@
  * Date: 2021-03-02T17:08Z
  */
 
+/*!
+ * vuex v3.6.2
+ * (c) 2021 Evan You
+ * @license MIT
+ */
+
 /**
  * @license
  * Lodash <https://lodash.com/>
@@ -68,3 +74,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+//! moment.js
+
+//! moment.js locale configuration
