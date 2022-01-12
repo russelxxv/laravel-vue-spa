@@ -3,6 +3,10 @@ import VueRouter from "vue-router";
 import Bookables from "./bookables/Bookables";
 import Bookable from "./bookable/Bookable";
 import Review from "./review/review";
+import Basket from "./basket/Basket";
+import Login from "./auth/Login";
+import Register from "./auth/Register";
+import PasswordReset from "./auth/PasswordReset";
 
 const routes = [
     {
@@ -20,6 +24,26 @@ const routes = [
         component: Review,
         name: "review"
     },
+    {
+        path: '/basket',
+        component: Basket,
+        name: "basket"
+    },
+    {
+        path: '/auth/login',
+        component: Login,
+        name: "login"
+    },
+    {
+        path: '/auth/register',
+        component: Register,
+        name: "register"
+    },
+    {
+        path: '/auth/password/reset',
+        component: PasswordReset,
+        name: "password_reset"
+    }
 ];
 
 

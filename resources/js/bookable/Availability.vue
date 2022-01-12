@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
         <h6 class="text-uppercase text-secondary font-weight-bolder">
             Check Availability
             <transition name="fade">
@@ -70,8 +70,9 @@ export default {
     },
 
     methods: {
-        check() {
+        async check() {
             // console.log(this.$store.state);
+
             this.loading = true;
             this.errors = null;
             this.$store.dispatch("setLastSearch", {
@@ -79,22 +80,39 @@ export default {
                 to: this.to,
             });
 
-            axios
-                .get(
-                    `/api/bookables/${this.bookableId}/availability?from=${this.from}&to=${this.to}`
-                )
-                .then((data) => {
-                    this.loading = false;
+            try {
+                this.responseStatusCode = (
+                    await axios.get(
+                        `/api/bookables/${this.bookableId}/availability?from=${this.from}&to=${this.to}`
+                    )
+                ).status;
+                this.$emit('availability', this.hasAvailabitlity);
+            } catch (error) {
+                if (is422(error)) {
+                    this.errors = error.response.data.errors;
+                }
+                this.responseStatusCode = error.response.status;
+                this.$emit('availability', this.hasAvailabitlity);
+            }
 
-                    this.responseStatusCode = data.status;
-                })
-                .catch((error) => {
-                    if (is422(error)) {
-                        this.errors = error.response.data.errors;
-                    }
-                    this.responseStatusCode = error.response.status;
-                })
-                .then(() => (this.loading = false));
+            this.loading = false;
+
+            // axios
+            //     .get(
+            //         `/api/bookables/${this.bookableId}/availability?from=${this.from}&to=${this.to}`
+            //     )
+            //     .then((data) => {
+            //         this.loading = false;
+
+            //         this.responseStatusCode = data.status;
+            //     })
+            //     .catch((error) => {
+            //         if (is422(error)) {
+            //             this.errors = error.response.data.errors;
+            //         }
+            //         this.responseStatusCode = error.response.status;
+            //     })
+            //     .then(() => (this.loading = false));
         },
     },
 

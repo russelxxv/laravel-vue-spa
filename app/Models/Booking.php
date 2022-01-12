@@ -24,6 +24,11 @@ class Booking extends Model
             ->where('from', '<=', $to);
     }
 
+    public function address()
+    {
+        return $this->belongsTo(Addresses::class);
+    }
+
     public function reviews()
     {
         return $this->hasOne(Review::class);

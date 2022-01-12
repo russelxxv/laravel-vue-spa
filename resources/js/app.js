@@ -18,6 +18,7 @@ import ButtonLoading from './shared/component/ButtonLoading';
 import Success from './shared/component/Success';
 import ValidationError from './shared/component/ValidationError';
 import storeDefinition from './store';
+import axios from "axios";
 
 window.Vue = require('vue').default;
 Vue.filter("fromNow", value => moment(value).fromNow());
@@ -54,6 +55,19 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store(storeDefinition);
 
+window.axios.interceptors.response.use(
+    response => {
+        return response;
+    },
+    error => {
+        if ( 401 === error.response.status ) {
+            store.dispatch("logOut");
+        }
+
+        return Promise.reject(error);
+    }
+);
+
 const app = new Vue({
     el: '#app',
     router,
@@ -62,7 +76,8 @@ const app = new Vue({
         "index": Index
     },
 
-    beforeCreate() {
+    async beforeCreate() {
         this.$store.dispatch('loadStoredState');
+        this.$store.dispatch('loadUser');
     }
 });
