@@ -22,5 +22,5 @@ Route::middleware('auth')->get('/user', function (Request $request) {
 });
 
 Route::get('/{any?}', function () {
-    return view('welcome');
+    return view('front-end.layout.app');
 })->where('any', '^(?!api\/)[\/\w\.\,-]*');
